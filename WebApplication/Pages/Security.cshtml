@@ -1,0 +1,23 @@
+@page
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Authentication
+
+@model SecurityModel
+
+@inject IStringLocalizer<Program> Localizer
+
+<h1>@ViewData["Title"]</h1>
+
+<h2>
+    @Localizer["Claims"]
+</h2>
+
+<br />
+<dl>
+    @foreach (var claim in User.Claims)
+    {
+        <dt>@claim.Type</dt>
+        <dd>@claim.Value</dd>
+    }
+</dl>

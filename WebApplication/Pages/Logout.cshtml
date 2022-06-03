@@ -1,0 +1,13 @@
+@page
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Authentication
+@model LogoutModel
+
+
+@inject IStringLocalizer<Program> Localizer
+
+@{
+    ViewData["Title"] = Localizer["Security Policy"];
+}
+<h1>@ViewData["Title"]</h1>
