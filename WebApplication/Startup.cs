@@ -1,18 +1,17 @@
 using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WebApplication.Middlewares;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using System.Threading.Tasks;
+using WebApplication.Middlewares;
 
 namespace WebApplication
 {
@@ -51,7 +50,6 @@ namespace WebApplication
             
             services.AddScoped<RequestLocalizationCookiesMiddleware>();
 
-
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = "Cookies";
@@ -60,6 +58,7 @@ namespace WebApplication
                .AddCookie(options =>
                {
                    options.Cookie.Name = "mvccode";
+                   options.Cookie.SameSite = SameSiteMode.None; // required for single sign-out
                })
                 .AddOpenIdConnect("oidc", options =>
                 {
@@ -101,6 +100,7 @@ namespace WebApplication
                                         { Expires = System.DateTimeOffset.UtcNow.AddYears(1) }
                                 );
                             }
+
                             return Task.CompletedTask;
                         }
                     };
